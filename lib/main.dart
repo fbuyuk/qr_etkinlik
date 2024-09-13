@@ -12,10 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: 'OpenSans'),
       title: 'QR Code App',
-      home: QrCodeScreen(),
+      home: const QrCodeScreen(),
     );
   }
 }
@@ -93,58 +94,75 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       appBar: AppBar(
         title: const Text('Etkinlik QR'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 300,
-            width: double.infinity,
-            color: Colors.lightBlue,
-            child: MobileScanner(
-              controller: cameraController,
-              onDetect: onDetect,
-              fit: BoxFit.cover,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              cameraController.start();
-            },
-            child: Container(
-              height: 40,
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Container(
+              height: 300,
               width: double.infinity,
-              color: Colors.purple,
-              alignment: Alignment.center,
-              child: const Text(
-                'QR KOD OKU',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                border: Border.all(color: Colors.black87),
+                color: Colors.grey,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: MobileScanner(
+                  controller: cameraController,
+                  onDetect: onDetect,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(16),
-            height: 200,
-            width: double.infinity,
-            color: resultColor,
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Text(
-                  webServiceResponse,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: textColor),
-                ),
-              ],
+            const SizedBox(
+              height: 10,
             ),
-          ),
-        ],
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: Colors.lightBlue,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20)),
+                onPressed: () {
+                  cameraController.start();
+                },
+                child: const Text(
+                  "QR KOD OKU",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(16),
+              height: 200,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: resultColor,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Text(
+                    webServiceResponse,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: textColor),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
